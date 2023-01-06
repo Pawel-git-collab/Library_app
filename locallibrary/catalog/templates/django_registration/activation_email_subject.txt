@@ -1,0 +1,1 @@
+Aktywuj swoje konto! Masz tylko na to {{expiration_days}} dni.

@@ -1,0 +1,43 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Tytuł: {{ book.title }}</h1>
+
+  <p><strong>Autor:</strong> <a href="{{ book.author.get_absolute_url }}">{{ book.author }}</a></p>
+  <p><strong>Opis:</strong> {{ book.summary }}</p>
+  <p><strong>ISBN:</strong> {{ book.isbn }}</p> 
+  <p><strong>Język:</strong> {{ book.language.all|join:", " }}</p>
+  <p><strong>Gatunek:</strong> {{ book.genre.all|join:", " }}</p>
+  {% if perms.catalog.can_mark_returned %}
+  <a href="{% url 'book_form' book.pk %}">[Edytuj] </a> <a href="{% url 'book_delete' book.pk %}" style="color:#FF0000;">[Usuń]</a>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Kopie</h4>
+    <br>
+    <a href="{% url 'book_instance_form' book.pk %}"> [Dodaj] </a>
+    {% endif %}
+
+    {% for copy in book.bookinstance_set.all %}
+      <hr>
+      <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+        {{ copy.get_status_display }} &nbsp
+        {% if copy.status == 'o' or copy.status == 'r' %}
+        {%else%}
+        <a href="{% url 'reservation-book' copy.id %}"> [Zmień status] </a>
+        {%endif%}
+      </p>
+    {% if copy.status == 'o' or copy.status == 'r' %}
+        <p><strong>Wypożyczone do:</strong> {{ copy.due_back }}</p>
+       {% endif %}
+      <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
+      <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
+      {% if perms.catalog.can_mark_returned %}
+      <a href="{% url 'book_instance_delete' pk=copy.id book_pk=book.pk %}" style="color:#FF0000"> [Usuń kopie] </a>
+      {% endif %}
+    {% if copy.status == 'o' or copy.status == 'r' %}
+    {%else%}
+        <a href="{% url 'reservation-book' copy.id %}"> [Zerezerwuj] </a> <a href="{% url 'rental-book' copy.id %}"> [Wypożycz] </a>
+    {% endif %}
+    {% endfor %}
+  </div>
+{% endblock %}

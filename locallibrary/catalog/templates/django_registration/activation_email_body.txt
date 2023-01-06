@@ -1,0 +1,7 @@
+Witaj,
+
+Twoje konto zostało zarejestrowane, ale musisz je jeszcze aktywować w ciągu {{expiration_days}} dni.
+
+Aby to zrobić, Proszę odwiedź poniższą stronę.
+
+{{scheme}}://{{request.get_host}}{% url 'django_registration_activate' activation_key %}

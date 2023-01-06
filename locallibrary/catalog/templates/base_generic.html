@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  {% block title %}<title>Lokalna Biblioteka - Home</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="wrapper d-flex align-items-stretch">
+    <!-- Side bar  -->
+    {% block sidebar %}
+        <nav id="sidebar">
+                <div class="custom-menu">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    </button>
+                </div>
+                <div class="img bg-wrap text-center py-4" style="background-image: url({% static 'images/bg_1.jpg' %});">
+                    <h3 class="font-italic text-white"><a href="{% url 'index' %}" class="text-white">LokalnaBiblioteka</a></h3>
+                    {{ user.username }}
+                </div>
+                <ul class="list-unstyled components mb-5">
+                  <li>
+                    <a href="{% url 'index' %}"><span class="fa fa-home mr-3"></span> Strona główna</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'books' %}"><span class="fa fa-book mr-3 "></span> Wszystkie książki</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'authors' %}"><span class="fa fa-user mr-3"></span>Wszyscy autorzy</a>
+                  </li>
+                    <li>
+                    <a href="{% url 'my-borrowed' %}"><span class="fa fa-book mr-3"></span>Moje wypożyczone książki</a>
+                  </li>
+                    <li>
+                    <a href="{% url 'all-borrowed-extend'   %}"><span class="fa fa-book mr-3"></span>Przedłuż wypożyczone książki</a>
+                    </li>
+                    <li>
+                    <a href="{% url 'confirm-get-book'   %}"><span class="fa fa-book mr-3"></span>Zatwierdź oddanie książki</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'django_registration_register'%}">Zarejestruj się</a></li>
+                        <li><a href="{% url 'login'%}">Login</a></li>
+                    {% endif %}
+                    {% if perms.catalog.can_mark_returned %}
+                    <li>
+                        <p style="text-indent:60px;">Opcje dla personelu</p>
+                    </li>
+                    <li>
+                        <p style="text-indent:60px;">Książki</p>
+                    </li>
+                    <li>
+                        <a href="{% url 'all-borrowed' %}"><span class="fa fa-book mr-3"></span>Wszystkie wypożyczone książki</a>
+                    </li>
+                    <li>
+                    <a href="{% url 'book_create' %}"><span class="fa fa-book mr-3"></span>Dodaj książkę</a>
+                    </li>
+                    <li>
+                    <a href="{% url 'all-books-update' %}"><span class="fa fa-book mr-3"></span>Edycja książek</a>
+                    </li>
+                    <li>
+                        <p style="text-indent:60px;">Autorzy</p>
+                    </li>
+                    <li>
+                    <a href="{% url 'author_create' %}"><span class="fa fa-user mr-3"></span>Dodaj autora</a>
+                    </li>
+                    <li>
+                    <a href="{% url 'all-authors-update'  %}"><span class="fa fa-user mr-3"></span>Edycja autora</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+    {% endblock %}
+
+    <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5 pt-5">
+          {% block content %}{% endblock %}
+      </div>
+</div>
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

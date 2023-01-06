@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Lista autorów</h1>
+  {% if author_list %}
+  <ul>
+    {% for author in author_list %}
+      <li>
+        <a href="{{ author.get_absolute_url }}">{{ author.first_name }} {{author.last_name}}  </a> <a href="{% url 'author_update' author.pk %}">[Edytuj] </a> <a href="{% url 'author_delete' author.pk %}" style="color:#FF0000;">[Usuń]</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>Brak autorów.</p>
+  {% endif %}
+{% endblock %}

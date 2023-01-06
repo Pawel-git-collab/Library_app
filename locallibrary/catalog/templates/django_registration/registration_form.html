@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Utwórz konto{% endblock %}
+
+{% block content %}
+  <h1>Utwórz konto</h1>
+  <form action="." method="post">
+    {% csrf_token %}
+    <table>
+    {{ form.as_p }}
+    </table>
+    <input type="submit" value="Utwórz konto">
+  </form>
+{% endblock %}

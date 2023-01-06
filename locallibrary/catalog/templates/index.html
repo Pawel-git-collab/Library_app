@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+<title></title>
+{% endblock %}
+
+{% block content %}
+  <h1>Lokalna Biblioteka</h1>
+  <p>Witamy na stronie projektu LokalnaBiblioteka</p>
+  <p>Bibiloteka posiada nastepujące pozycje:</p>
+  <ul>
+    <li><strong>Książki:</strong> {{ num_books }}</li>
+    <li><strong>Ilość egzemplarzy:</strong> {{ num_instances }}</li>
+    <li><strong>Ilość egzemplarzy dostępnych:</strong> {{ num_instances_available }}</li>
+    <li><strong>Autorzy:</strong> {{ num_authors }}</li>
+    <li><strong>Gatunki:</strong> {{ num_genre }}</li>
+  </ul>
+{% endblock %}
